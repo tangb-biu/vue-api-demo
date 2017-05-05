@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue style与class绑定</title>
+	<style type="text/css">
+		.block {
+			padding: 10px;
+			margin: 10px;
+			background: #eee;
+		}
+		.active {
+			background: #289;
+		}
+		.text-danger {
+			background: #FD6D62
+		}
+	</style>
+</head>
+<body>
+<div id="app" class="block">
+	<div :class="{active: isActive}">
+		<p>heihei</p>
+	</div>
+
+	<div :class="classObject">
+		<p>danger</p>
+	</div>
+</div>
+<script type="text/javascript" src="../vue.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		data: {
+			isActive: true,
+			hasError: true,
+			error: null
+		},
+		computed: {
+			classObject: function() {
+				return {
+					'text-danger': this.error
+				}
+			}
+ 		}
+	}).$mount(document.querySelector('#app'))
+
+
+</script>
+</body>
+</html>
