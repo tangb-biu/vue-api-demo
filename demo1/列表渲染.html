@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>列表渲染</title>
+</head>
+<body>
+<ul id="app">
+	<li v-for="item in items">
+		{{ item.message }}
+	</li>
+</ul>
+
+<ul id="app1">
+	<template v-for="item of items">
+		<li>{{ item.message }}</li>
+		<li class="divider"></li>
+	</template>
+</ul>
+
+<ul id="app2">
+	<li v-for="(key,value) in object">{{key}}:{{value}}</li>
+</ul>
+
+<div id="app3">
+	<span v-for="n in 10">{{n}}-</span>
+</div>
+<script type="text/javascript" src="../vue.js"></script>
+<script type="text/javascript">
+	var vm = new Vue({
+		data: {
+			items: [
+				{message: 'Foo'},
+				{message: 'Bar'},
+				{message: 'Hahha'}
+			]
+		}
+	}).$mount(document.querySelector("#app"));
+
+	var vm1 = new Vue({
+		data: {
+			items: [
+				{message: 'Foo'},
+				{message: 'Bar'},
+				{message: 'Hahha'}
+			]
+		}
+	}).$mount(document.querySelector("#app1"));
+
+	var vm2 = new Vue({
+		data: {
+			object: {
+				firstName: 'John',
+				lastName: 'Doe',
+				Age: 30
+			}
+		}
+	}).$mount(document.querySelector("#app2"));
+
+	var vm3 = new Vue().$mount(document.querySelector("#app3"));
+</script>
+</body>
+</html>
