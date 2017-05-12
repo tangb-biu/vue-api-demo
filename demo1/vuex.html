@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vuex组件通信</title>
+</head>
+<body>
+<div id="app1">
+	<p>{{count}}</p>
+	<button @click="increment">+</button>
+	<button @click="decrement">-</button>
+</div>
+<script type="text/javascript" src="../vue.js"></script>
+<script type="text/javascript" src="../vuex.js"></script>
+<script type="text/javascript">
+const store = new Vuex.Store({
+	state: {
+		count: 0
+	},
+	mutations: {
+		increment(state) {
+			state.count ++
+		},
+		decrement(state) {
+			state.count --
+		}
+	}
+})
+
+const app1 = new Vue({
+	store,
+	/*
+	computed: Vuex.mapState([
+		'count',
+	]),
+	*/
+	computed: Vuex.mapState({
+		count: 'count'
+	}),
+	/*
+	computed: Vuex.mapState({
+		count: function(state){
+			return state.count
+		}
+	})
+
+	or
+
+	computed: Vuex.mapState({
+		count: 'count'
+	})
+	*/
+	methods: {
+		increment () {
+			store.commit('increment')
+		},
+		decrement () {
+			store.commit('decrement')
+		}
+	}
+}).$mount(document.querySelector('#app1'))
+</script>
+</body>
+</html>
