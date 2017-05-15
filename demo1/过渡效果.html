@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>过渡效果</title>
+<style type="text/css">
+	.fade-enter-active, .fade-leave-active {
+		transition: opacity .5s;
+	}
+	.fade-enter, .fade-leave-active {
+		opacity: 0;
+	}
+</style>
+</head>
+<body>
+<div id="demo">
+	<button v-on:click="show = !show">toggle</button>
+	<transition name="fade">
+		<p v-if="show">hello</p>
+	</transition>
+</div>
+<script src="../vue.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		data: {
+			show: true
+		}
+	}).$mount(document.querySelector("#demo"))
+</script>
+</body>
+</html>
