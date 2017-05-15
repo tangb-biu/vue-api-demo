@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vuex组件通信</title>
+</head>
+<body>
+<div id="app1">
+	<p v-for="todo in todos">{{ todo.text }}</p>
+	<p> {{doneTodos}} </p>
+	<p> {{doneTodosCount}} </p>
+</div>
+<script type="text/javascript" src="../vue.js"></script>
+<script type="text/javascript" src="../vuex.js"></script>
+<script type="text/javascript">
+const store = new Vuex.Store({
+	state: {
+		todos: [
+			{id: 1, text: 'abc', done: true},
+			{id: 2, text: 'dad', done: false},
+			{id: 3, text: 'nms', done: true}
+		]
+	},
+	getters: {
+		doneTodos: state => {
+			return state.todos.filter(todo => todo.done)
+		},
+		doneTodosCount: (state, getters) => {
+			return getters.doneTodos.length
+		}
+	}
+})
+
+const app1 = new Vue({
+	store,
+	data: function() {
+		return {
+			todos:this.$store.state.todos
+		}
+	},
+	computed: Vuex.mapGetters([
+		'doneTodos',
+		'doneTodosCount'
+	])
+	
+}).$mount(document.querySelector('#app1'))
+</script>
+</body>
+</html>

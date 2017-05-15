@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vuex组件通信</title>
+</head>
+<body>
+<div id="app1">
+	<!--
+	todo:<input type="text" name="text" v-model="val" @keydown.enter.trim="add(val)"/>
+	<ul>
+		<li v-for="todo,key in todos">
+			<span>{{todo.text}}</span>
+			<button @click="todo.done = true" v-if="!todo.done">done</button>
+			<button @click="remove(key)">x</button>
+		</li>
+	</ul>
+	<p> total:{{length}} </p>
+	<p> done: {{doneTodosCount}} </p>
+	-->
+	<cus-input title="addTodo"></cus-input>
+	<cus-list></cus-list>
+</div>
+<script type="text/javascript" src="../vue.js"></script>
+<script type="text/javascript" src="../vuex.js"></script>
+<script type="text/javascript">
+const store = new Vuex.Store({
+	state: {
+		id: 4,
+		todos: [
+			{id: 1, text: 'abc', done: true},
+			{id: 2, text: 'dad', done: false},
+			{id: 3, text: 'nms', done: true}
+		]
+	},
+	mutations: {
+		['ADD_TODOS'](state, todo) {
+			if(!todo) return;
+			let obj = {
+				id: state.id,
+				text: todo,
+				done: false
+			}
+			state.todos.push(obj);
+			state.id ++;
+		},
+		['REMOVE_TODOS'](state, index) {
+			state.todos.splice(index, 1);
+		}
+	},
+	getters: {
+		doneTodos: state => {
+			return state.todos.filter(todo => todo.done)
+		},
+		doneTodosCount: (state, getters) => {
+			return getters.doneTodos.length
+		},
+		length: state => state.todos.length
+	}
+})
+
+
+Vue.component('cus-input', {
+	props: ['title'],
+	data: () => {
+		return {
+			val: '',
+		}
+	},
+	template: '<div>{{title}}<input type="text" name="text" v-model="val" @keydown.enter.trim="add(val)"/></div>',
+	methods: {
+		add(val){
+			this.$store.commit('ADD_TODOS', val);
+			this.val = '';
+		}
+	}
+})
+
+Vue.component('cus-list', {
+	data: function() {
+		return {
+			todos:this.$store.state.todos,
+		}
+	},
+	template: '<div>\
+		<ul>\
+			<li v-for="todo,key in todos">\
+				<span>{{todo.text}}</span>\
+				<button @click="todo.done = true" v-if="!todo.done">done</button>\
+				<button @click="remove(key)">x</button>\
+			</li>\
+		</ul>\
+		<p> total:{{length}} </p>\
+		<p> done: {{doneTodosCount}} </p>\
+	</div>',
+	methods: Vuex.mapMutations({
+		remove: 'REMOVE_TODOS'
+	}),
+	computed: Vuex.mapGetters([
+		'doneTodos',
+		'doneTodosCount',
+		'length'
+	])
+})
+const app1 = new Vue({
+	store,
+}).$mount(document.querySelector('#app1'))
+</script>
+</body>
+</html>
