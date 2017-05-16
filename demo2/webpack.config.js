@@ -111,7 +111,9 @@ module.exports = (env) => {
 			}),
 			// 构造index.html 文件
 			new HtmlWebpackPlugin({
-				filename: 'index.html'
+				filename: 'index.html',
+				template: '../index.html',
+      			inject: true
 			}),
 			// 将js插入到html中
 			new InlineManifestWebpack({
