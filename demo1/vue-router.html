@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vue路由</title>
+</head>
+<body>
+<div id="app">
+	<h1>Hello App!</h1>
+	<p>
+		<router-link to="/foo/123">Go to Foo</router-link>
+		<router-link to="/bar/245">Go to Bar</router-link>
+	</p>	
+	<router-view></router-view>
+</div>
+<script src="../vue.js"></script>
+<script src="../vue-router.js"></script>
+<script type="text/javascript">
+
+const foo = {template: '<div>{{$route.params}}</div>'}
+const bar = {template: '<div>{{$route.params}}</div>'} 
+const defa = {template: '<div>Hello world</div>'}
+const routes = [
+	{path: '/foo/:id', component: foo},
+	{path: '/bar/:name', component: bar},
+	{path: '/', component: defa}
+]
+
+const router = new VueRouter({
+	routes
+})
+const app = new Vue({
+	router
+}).$mount(document.querySelector('#app'))
+</script>
+</body>
+</html>
