@@ -11,15 +11,20 @@ const InlineManifestWebpack = require('inline-manifest-webpack-plugin');
 
 module.exports = (env) => {
 	return {
-		context: `${__dirname}/src`,
+		context: `${__dirname}`,
 		entry: {
-			app: './app.js',
-			vendor: ['../lib/vue', '../lib/vuex', '../lib/vue-router']
+			app: `${__dirname}/src/main.js`,
+			vendor: ['vue', 'vuex', 'vue-router']
 		},
 		output: {
 			path: `${__dirname}/asserts`,
 			filename: '[name].bundle.js',
 			publicPath: '/'
+		},
+		resolve: {
+			alias: {
+            	'vue$': 'vue/dist/vue.js'
+        	}
 		},
 		module: {
 			rules: [
@@ -42,7 +47,7 @@ module.exports = (env) => {
 					use:['babel-loader']
 				},
 				{
-					test: /\.(svg|jpe?g|gif|ttf|woff2?)$/,
+					test: /\.(svg|ico|jpe?g|gif|ttf|woff2?)$/,
 					use: {
 						loader: 'url-loader',
 						options: {
@@ -112,7 +117,8 @@ module.exports = (env) => {
 			// 构造index.html 文件
 			new HtmlWebpackPlugin({
 				filename: 'index.html',
-				template: '../index.html',
+				template: `${__dirname}/index.html`,
+				favicon: `${__dirname}/favicon.ico`,
       			inject: true
 			}),
 			// 将js插入到html中
